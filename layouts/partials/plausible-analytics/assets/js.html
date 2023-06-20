@@ -1,0 +1,17 @@
+{{- $url := urls.Parse site.BaseURL }}
+{{- $endpoint := strings.TrimSuffix "/" site.Params.plausible_analytics.endpoint }}
+{{- $exts := slice "script" }}
+{{- if or .Params.plausible_analytics.file_downloads site.Params.plausible_analytics.file_downloads }}
+  {{- $exts = $exts | append "file-downloads" }}
+{{- end }}
+{{- if or .Params.plausible_analytics.outbound_links site.Params.plausible_analytics.outbound_links }}
+  {{- $exts = $exts | append "outbound-links" }}
+{{- end }}
+{{- if site.Params.plausible_analytics.local }}
+  {{- $exts = $exts | append "local" }}
+{{- end }}
+<script
+  defer
+  data-domain="{{ $url.Hostname }}"
+  src="{{ printf `%s/js/%s.js` $endpoint (delimit $exts `.`) }}"
+></script>
