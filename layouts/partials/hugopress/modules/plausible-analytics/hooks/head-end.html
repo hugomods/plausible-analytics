@@ -1,1 +1,3 @@
-{{ partial "plausible-analytics/assets/js" .Page }}
+{{- if default true .Page.Params.analyze }}
+  {{ partial "plausible-analytics/assets/js" .Page }}
+{{- end }}
